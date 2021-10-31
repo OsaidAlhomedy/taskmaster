@@ -57,6 +57,7 @@
         android:id="@+id/addTskButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="taskAdd"
         android:text="@string/add_task"
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
