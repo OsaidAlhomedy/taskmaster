@@ -5,21 +5,33 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Taskmaster">
         <activity
-            android:name=".MainActivity3"
+            android:name=".Settings"
             android:exported="false"
-            android:parentActivityName=".MainActivity"/>
+            android:label="@string/settings"
+            android:parentActivityName=".Home"/>
         <activity
-            android:name=".MainActivity2"
+            android:name=".TaskDetails"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:label="Task Details"
+            android:parentActivityName=".AllTasks" />
         <activity
-            android:name=".MainActivity"
+            android:name=".AllTasks"
+            android:exported="false"
+            android:label="All Tasks"
+            android:parentActivityName=".Home" />
+        <activity
+            android:name=".AddTask"
+            android:exported="false"
+            android:label="@string/add_task"
+            android:parentActivityName=".Home" />
+        <activity
+            android:name=".Home"
             android:exported="true"
+            android:label="Task Master"
             android:value=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +42,7 @@
 
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value=".MainActivity" />
+            android:value=".Home" />
     </application>
 
 </manifest>
