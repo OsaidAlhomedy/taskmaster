@@ -8,14 +8,14 @@
 
     <TextView
         android:id="@+id/taskTitle"
-        android:layout_width="127dp"
+        android:layout_width="250dp"
         android:layout_height="35dp"
         android:text="@string/task_title"
         android:textAlignment="textStart"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.126"
+        app:layout_constraintHorizontal_bias="0.223"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.1" />

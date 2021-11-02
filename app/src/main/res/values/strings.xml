@@ -34,4 +34,6 @@ consequuntur! Commodi minima excepturi repudiandae velit hic maxime</string>
     <string name="task_1">Task 1</string>
     <string name="task_2">Task 2</string>
     <string name="task_3">Task 3</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

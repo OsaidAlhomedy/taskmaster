@@ -1,6 +1,8 @@
 package com.osaid.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class Home extends AppCompatActivity {
 
@@ -29,6 +33,19 @@ public class Home extends AppCompatActivity {
         } else {
             textTitle.setText(string);
         }
+
+
+        ArrayList<Task> taskArrayList = new ArrayList<>();
+        taskArrayList.add(new Task("Wake Up", "Grab a brush and put a little make-up", "complete"));
+        taskArrayList.add(new Task("Turn Pc On", "Hide the scars to fade away the shake-up", "complete"));
+        taskArrayList.add(new Task("Study All Day", "Why'd you leave the keys upon the table?", "new"));
+        taskArrayList.add(new Task("Study All Night", "Here you go create another fable", "new"));
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        recyclerView.setAdapter(new TasksAdapter(this,taskArrayList));
 
     }
 
@@ -65,12 +82,9 @@ public class Home extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void taskDetails(View view){
-        int id = view.getId();
-        Button button = findViewById(id);
-        String text = button.getText().toString();
-        Intent intent = new Intent(this,TaskDetails.class);
-        intent.putExtra("taskTitle",text);
+    public void taskDetails(String title) {
+        Intent intent = new Intent(Home.this, TaskDetails.class);
+        intent.putExtra("taskTitle", title);
         startActivity(intent);
     }
 
