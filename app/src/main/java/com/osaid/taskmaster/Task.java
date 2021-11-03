@@ -1,12 +1,28 @@
 package com.osaid.taskmaster;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import lombok.Data;
+
+@Entity
 public class Task {
+
+    @PrimaryKey(autoGenerate = true)
+    public Long id;
+
+    @ColumnInfo(name = "title")
     private String title;
+
+    @ColumnInfo(name = "body")
     private String body;
+
+    @ColumnInfo(name = "state")
     private String state;
 
     public Task() {
@@ -17,7 +33,6 @@ public class Task {
         this.body = body;
         this.state = state;
     }
-
 
 
     public String getTitle() {
@@ -43,4 +58,9 @@ public class Task {
     public void setState(String state) {
         this.state = state;
     }
+
+    public long getId() {
+        return id;
+    }
+
 }

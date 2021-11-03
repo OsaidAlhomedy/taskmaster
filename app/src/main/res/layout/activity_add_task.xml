@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.1" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/taskTitleEditText"
         android:layout_width="330dp"
         android:layout_height="75dp"
         android:layout_marginBottom="312dp"
@@ -39,9 +39,9 @@
         app:layout_constraintVertical_bias="0.318" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
-        android:layout_width="330dp"
-        android:layout_height="75dp"
+        android:id="@+id/taskBodyEditText"
+        android:layout_width="331dp"
+        android:layout_height="86dp"
         android:autofillHints="type what you want to do"
         android:ems="10"
         android:hint="@string/do_something"
@@ -50,7 +50,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/taskTitleEditText"
         app:layout_constraintVertical_bias="0.139"
         tools:ignore="TextContrastCheck" />
 
@@ -65,7 +65,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.132"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3"
+        app:layout_constraintTop_toBottomOf="@+id/taskBodyEditText"
         app:layout_constraintVertical_bias="0.197"
         tools:ignore="DuplicateSpeakableTextCheck" />
 
@@ -75,10 +75,10 @@
         android:layout_height="wrap_content"
         android:text="@string/task_title"
         android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/taskTitleEditText"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
-        app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName" />
+        app:layout_constraintStart_toStartOf="@+id/taskTitleEditText"
+        app:layout_constraintTop_toTopOf="@+id/taskTitleEditText" />
 
     <TextView
         android:id="@+id/textView3"
@@ -86,10 +86,10 @@
         android:layout_height="wrap_content"
         android:text="@string/task_description"
         android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="@+id/editTextTextPersonName3"
+        app:layout_constraintEnd_toEndOf="@+id/taskBodyEditText"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName3"
-        app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintStart_toStartOf="@+id/taskBodyEditText"
+        app:layout_constraintTop_toTopOf="@+id/taskBodyEditText" />
 
     <TextView
         android:id="@+id/textView5"
@@ -101,13 +101,13 @@
         app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/addTskButton"
-        app:layout_constraintVertical_bias="0.301" />
+        app:layout_constraintVertical_bias="0.503" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="8dp"
         android:text="@string/_0"
         app:layout_constraintBottom_toBottomOf="@+id/textView5"
         app:layout_constraintStart_toEndOf="@+id/textView5" />

@@ -42,7 +42,6 @@
         android:layout_width="153dp"
         android:layout_height="65dp"
         android:layout_marginStart="20dp"
-        android:layout_marginBottom="68dp"
         android:onClick="allTask"
         android:text="@string/all_tasks_btn"
         android:textColor="#2C2C2C"
@@ -51,7 +50,7 @@
         app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toEndOf="@+id/addTskBtn"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintVertical_bias="0.979" />
+        app:layout_constraintVertical_bias="0.831" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -66,7 +65,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.115"
         app:srcCompat="@drawable/ic_baseline_settings_24"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck"
+        android:contentDescription="@string/this_image_represens_the_settings" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

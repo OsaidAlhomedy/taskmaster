@@ -28,8 +28,14 @@ TaskMaster is a task management android application with the full functionalitie
 
 ### lab28
 
-![7](./screenshots/7.png)
-![8](./screenshots/8.png)
+![7](./screenshots/OLD/7.png)
+![8](./screenshots/OLD/8.png)
+
+### lab29
+
+![9](./screenshots/9.png)
+![10](./screenshots/10.png)
+![11](./screenshots/11.png)
 
 ## License
 
