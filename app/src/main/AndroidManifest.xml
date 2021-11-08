@@ -2,17 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.osaid.taskmaster">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+
         android:theme="@style/Theme.Taskmaster">
+
         <activity
             android:name=".Settings"
             android:exported="false"
             android:label="@string/settings"
-            android:parentActivityName=".Home"/>
+            android:parentActivityName=".Home" />
         <activity
             android:name=".TaskDetails"
             android:exported="false"
@@ -27,11 +32,13 @@
             android:name=".AddTask"
             android:exported="false"
             android:label="@string/add_task"
+
             android:parentActivityName=".Home" />
         <activity
             android:name=".Home"
             android:exported="true"
             android:label="Task Master"
+
             android:value=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
