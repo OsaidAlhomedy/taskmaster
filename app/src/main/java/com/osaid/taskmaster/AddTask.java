@@ -9,6 +9,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Task;
+
 public class AddTask extends AppCompatActivity {
 
 
@@ -41,11 +45,24 @@ public class AddTask extends AppCompatActivity {
         EditText taskBodyEditText = findViewById(R.id.taskBodyEditText);
         String body = taskBodyEditText.getText().toString();
 
-        Task newTask = new Task(title, body, "new");
+        TaskOG newTaskOG = new TaskOG(title, body, "new");
 
         Log.d(TAG, "taskAdd: " + title + " , " + body);
 
-        AppDB.getInstance(AddTask.this).taskDAO().insertTask(newTask);
+        AppDB.getInstance(AddTask.this).taskDAO().insertTask(newTaskOG);
+
+        Task newTask = Task.builder()
+                .title(title)
+                .body(body)
+                .state("new")
+                .build();
+
+        Amplify.API.mutate(
+                ModelMutation.create(newTask),
+                response -> Log.i("MyAmplifyApp", "Task Added Successfully: " + response.getData().getId()),
+                error -> Log.e("MyAmplifyApp", "Task failed Successfully", error)
+        );
+
 
         TextView tasks = findViewById(R.id.textView6);
         int tasksNumbers = AppDB.getInstance(this).taskDAO().getAllTasks().size();

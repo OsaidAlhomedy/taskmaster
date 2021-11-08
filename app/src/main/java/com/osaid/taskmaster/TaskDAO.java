@@ -11,19 +11,19 @@ import java.util.List;
 @Dao
 public interface TaskDAO {
 
-    @Query("SELECT * FROM task")
-    List<Task> getAllTasks();
+    @Query("SELECT * FROM TaskOG")
+    List<TaskOG> getAllTasks();
 
 
-    @Query("SELECT * FROM task WHERE id = (:id)")
-    List<Task> getTaskById(long id);
+    @Query("SELECT * FROM TaskOG WHERE id = (:id)")
+    List<TaskOG> getTaskById(long id);
 
 
     @Insert
-    void insertTask(Task task);
+    void insertTask(TaskOG taskOG);
 
     @Delete
-    void deleteTask(Task task);
+    void deleteTask(TaskOG taskOG);
 
 
 }

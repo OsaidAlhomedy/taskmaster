@@ -1,13 +1,11 @@
 package com.osaid.taskmaster;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,18 +16,18 @@ import java.util.List;
 
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHolder> {
 
-    private List<Task> taskList = new ArrayList<>();
+    private List<TaskOG> taskOGList = new ArrayList<>();
     private final Context context;
 
-    public TasksAdapter(Context context, List<Task> taskList) {
+    public TasksAdapter(Context context, List<TaskOG> taskOGList) {
         this.context = context;
-        this.taskList = taskList;
+        this.taskOGList = taskOGList;
     }
 
 
     public class TaskViewHolder extends RecyclerView.ViewHolder {
 
-        private Task task;
+        private TaskOG taskOG;
         private final View itemView;
 
         public TaskViewHolder(@NonNull View itemView) {
@@ -44,9 +42,9 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
                     Intent intent = new Intent(context, TaskDetails.class);
                     int position = getAdapterPosition();
 
-                    String title = taskList.get(position).getTitle();
-                    String body = taskList.get(position).getBody();
-                    String state = taskList.get(position).getState();
+                    String title = taskOGList.get(position).getTitle();
+                    String body = taskOGList.get(position).getBody();
+                    String state = taskOGList.get(position).getState();
 
                     intent.putExtra("taskTitle", title);
                     intent.putExtra("taskBody", body);
@@ -72,24 +70,28 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
 
-        holder.task = taskList.get(position);
+        holder.taskOG = taskOGList.get(position);
         TextView taskTitle = holder.itemView.findViewById(R.id.fragementTitle);
         TextView taskBody = holder.itemView.findViewById(R.id.fragmentBody);
         TextView taskState = holder.itemView.findViewById(R.id.fragmentState);
 
-        taskTitle.setText(holder.task.getTitle());
-        taskBody.setText(holder.task.getBody());
-        taskState.setText(holder.task.getState());
+        taskTitle.setText(holder.taskOG.getTitle());
+        taskBody.setText(holder.taskOG.getBody());
+        taskState.setText(holder.taskOG.getState());
 
 
     }
 
     @Override
     public int getItemCount() {
-        return taskList.size();
+        return taskOGList.size();
     }
 
-    public List<Task> getTaskList() {
-        return taskList;
+    public List<TaskOG> getTaskList() {
+        return taskOGList;
+    }
+
+    public void setTaskOGList(List<TaskOG> taskOGList) {
+        this.taskOGList = taskOGList;
     }
 }

@@ -11,7 +11,7 @@ import java.util.Set;
 import lombok.Data;
 
 @Entity
-public class Task {
+public class TaskOG {
 
     @PrimaryKey(autoGenerate = true)
     public Long id;
@@ -25,10 +25,10 @@ public class Task {
     @ColumnInfo(name = "state")
     private String state;
 
-    public Task() {
+    public TaskOG() {
     }
 
-    public Task(String title, String body, String state) {
+    public TaskOG(String title, String body, String state) {
         this.title = title;
         this.body = body;
         this.state = state;
