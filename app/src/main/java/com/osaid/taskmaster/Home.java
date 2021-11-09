@@ -2,16 +2,16 @@ package com.osaid.taskmaster;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
+
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
+
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
@@ -20,19 +20,19 @@ import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
-import com.amplifyframework.core.model.query.predicate.QueryPredicate;
+
 import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.generated.model.Team;
 
 import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+
 
 public class Home extends AppCompatActivity {
 
@@ -58,7 +58,6 @@ public class Home extends AppCompatActivity {
         }
 
         try {
-            // Add these lines to add the AWSApiPlugin plugins
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.configure(getApplicationContext());
@@ -67,14 +66,6 @@ public class Home extends AppCompatActivity {
         } catch (AmplifyException error) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
-
-//        List<Task> taskArrayList = AppDB.getInstance(this).taskDAO().getAllTasks();   THIS WAS FOR THE ROOM DATABASE
-        // THIS ONE IS FOR THE GRAPHQL
-
-//        taskArrayList.add(new Task("Wake Up", "Grab a brush and put a little make-up", "complete"));
-//        taskArrayList.add(new Task("Turn Pc On", "Hide the scars to fade away the shake-up", "complete"));
-//        taskArrayList.add(new Task("Study All Day", "Why'd you leave the keys upon the table?", "new"));
-//        taskArrayList.add(new Task("Study All Night", "Here you go create another fable", "new"));
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
@@ -98,6 +89,12 @@ public class Home extends AppCompatActivity {
 
         getTasks();
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
@@ -124,6 +121,52 @@ public class Home extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         recyclerView.setAdapter(newAdapter);
+
+    }
+
+
+    private void teamSeeder(SharedPreferences sharedPreferences) {
+        String TAG = "teamSeeder";
+        List<Team> teamList = new ArrayList<>();
+        teamList.add(Team.builder().name("team1").build());
+        teamList.add(Team.builder().name("team2").build());
+        teamList.add(Team.builder().name("team3").build());
+
+
+        Amplify.API.mutate(
+                ModelMutation.create(teamList.get(0))
+                , success -> {
+                    if (success.getData().getId() != null) {
+                        Log.i(TAG, "team0 id ====> " + success.getData().getId());
+                        sharedPreferences.edit().putString(teamList.get(0).getName(), success.getData().getId()).apply();
+                    }
+                }, error -> {
+                    Log.i(TAG, "team1 id ====> " + error.toString());
+                }
+        );
+        Amplify.API.mutate(
+                ModelMutation.create(teamList.get(1))
+                , success -> {
+                    if (success.getData().getId() != null) {
+                        Log.i(TAG, "team1 id ====> " + success.getData().getId());
+                        sharedPreferences.edit().putString(teamList.get(1).getName(), success.getData().getId()).apply();
+                    }
+                }, error -> {
+                    Log.i(TAG, "team2 id ====> " + error.toString());
+                }
+        );
+        Amplify.API.mutate(
+                ModelMutation.create(teamList.get(2))
+                , success -> {
+                    if (success.getData().getId() != null) {
+                        Log.i(TAG, "team2 id ====> " + success.getData().getId());
+                        sharedPreferences.edit().putString(teamList.get(2).getName(), success.getData().getId()).apply();
+                    }
+                }, error -> {
+                    Log.i(TAG, "team3 id ====> " + error.toString());
+                }
+        );
+
 
     }
 

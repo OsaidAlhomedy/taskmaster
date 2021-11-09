@@ -3,6 +3,8 @@ package com.osaid.taskmaster;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -15,6 +17,8 @@ import com.amplifyframework.datastore.generated.model.Task;
 
 public class AddTask extends AppCompatActivity {
 
+    Handler handler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,11 @@ public class AddTask extends AppCompatActivity {
         TextView tasks = findViewById(R.id.textView6);
         int tasksNumbers = AppDB.getInstance(this).taskDAO().getAllTasks().size();
         tasks.setText(String.valueOf(tasksNumbers));
+
+        handler = new Handler(Looper.getMainLooper(),message -> {
+            return false;
+        });
+
 
     }
 
@@ -51,7 +60,7 @@ public class AddTask extends AppCompatActivity {
 
         AppDB.getInstance(AddTask.this).taskDAO().insertTask(newTaskOG);
 
-        Task newTask = Task.builder()
+        Task newTask = Task.builder().teamId("1")
                 .title(title)
                 .body(body)
                 .state("new")
