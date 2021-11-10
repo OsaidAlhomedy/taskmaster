@@ -17,7 +17,8 @@
             android:name=".Settings"
             android:exported="false"
             android:label="@string/settings"
-            android:parentActivityName=".Home" />
+            android:parentActivityName=".Home"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".TaskDetails"
             android:exported="false"
@@ -27,18 +28,20 @@
             android:name=".AllTasks"
             android:exported="false"
             android:label="All Tasks"
+            android:launchMode="singleTop"
             android:parentActivityName=".Home" />
         <activity
             android:name=".AddTask"
             android:exported="false"
             android:label="@string/add_task"
+            android:launchMode="singleTop"
 
             android:parentActivityName=".Home" />
         <activity
             android:name=".Home"
             android:exported="true"
             android:label="Task Master"
-
+            android:launchMode="singleTop"
             android:value=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

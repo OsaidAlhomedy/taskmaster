@@ -2,16 +2,16 @@ package com.osaid.taskmaster;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
+
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
+
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
@@ -20,19 +20,19 @@ import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
-import com.amplifyframework.core.model.query.predicate.QueryPredicate;
+
 import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.generated.model.Team;
 
 import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
+
 
 public class Home extends AppCompatActivity {
 
@@ -57,27 +57,11 @@ public class Home extends AppCompatActivity {
             textTitle.setText(string);
         }
 
-        try {
-            // Add these lines to add the AWSApiPlugin plugins
-            Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.configure(getApplicationContext());
+        Log.i("HOME START", "ON CREATE");
 
-            Log.i("MyAmplifyApp", "Initialized Amplify");
-        } catch (AmplifyException error) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
-        }
-
-//        List<Task> taskArrayList = AppDB.getInstance(this).taskDAO().getAllTasks();   THIS WAS FOR THE ROOM DATABASE
-        // THIS ONE IS FOR THE GRAPHQL
-
-//        taskArrayList.add(new Task("Wake Up", "Grab a brush and put a little make-up", "complete"));
-//        taskArrayList.add(new Task("Turn Pc On", "Hide the scars to fade away the shake-up", "complete"));
-//        taskArrayList.add(new Task("Study All Day", "Why'd you leave the keys upon the table?", "new"));
-//        taskArrayList.add(new Task("Study All Night", "Here you go create another fable", "new"));
+        awsConfigure();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-
 
         TasksAdapter newAdapter = new TasksAdapter(this, null);
 
@@ -96,7 +80,6 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        getTasks();
 
     }
 
@@ -116,6 +99,7 @@ public class Home extends AppCompatActivity {
             textTitle.setText(string);
         }
 
+        getTasks();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
@@ -125,36 +109,129 @@ public class Home extends AppCompatActivity {
 
         recyclerView.setAdapter(newAdapter);
 
+
+    }
+
+
+    private void teamSeeder(SharedPreferences sharedPreferences) {
+        String TAG = "teamSeeder";
+        List<Team> teamList = new ArrayList<>();
+        teamList.add(Team.builder().name("team1").build());
+        teamList.add(Team.builder().name("team2").build());
+        teamList.add(Team.builder().name("team3").build());
+
+
+        Amplify.API.mutate(
+                ModelMutation.create(teamList.get(0))
+                , success -> {
+                    if (success.getData().getId() != null) {
+                        Log.i(TAG, "team0 id ====> " + success.getData().getId());
+                        sharedPreferences.edit().putString(teamList.get(0).getName(), success.getData().getId()).apply();
+                    }
+                }, error -> {
+                    Log.i(TAG, "team1 id ====> " + error.toString());
+                }
+        );
+        Amplify.API.mutate(
+                ModelMutation.create(teamList.get(1))
+                , success -> {
+                    if (success.getData().getId() != null) {
+                        Log.i(TAG, "team1 id ====> " + success.getData().getId());
+                        sharedPreferences.edit().putString(teamList.get(1).getName(), success.getData().getId()).apply();
+                    }
+                }, error -> {
+                    Log.i(TAG, "team2 id ====> " + error.toString());
+                }
+        );
+        Amplify.API.mutate(
+                ModelMutation.create(teamList.get(2))
+                , success -> {
+                    if (success.getData().getId() != null) {
+                        Log.i(TAG, "team2 id ====> " + success.getData().getId());
+                        sharedPreferences.edit().putString(teamList.get(2).getName(), success.getData().getId()).apply();
+                    }
+                }, error -> {
+                    Log.i(TAG, "team3 id ====> " + error.toString());
+                }
+        );
+
+
     }
 
 
     private void getTasks() {
+        allTasks = new ArrayList<>();
         List<Task> listOfTasks = new ArrayList<>();
-        Amplify.API.query(
-                ModelQuery.list(Task.class),
-                response -> {
-                    for (Task task : response.getData()) {
-                        listOfTasks.add(task);
-                    }
-                    Collections.sort(listOfTasks, new Comparator<Task>() {
-                        @Override
-                        public int compare(Task task, Task t1) {
-                            return Long.compare(task.getCreatedAt().toDate().getTime(), t1.getCreatedAt().toDate().getTime());
+
+        SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
+        String settingsTeamID = sharedPreferences.getString("settingsTeamID", null);
+        Log.i("TeamID", "Settings Team ID ===> " + settingsTeamID);
+
+        if (settingsTeamID == null) {
+            Amplify.API.query(
+                    ModelQuery.list(Task.class),
+                    response -> {
+                        for (Task task : response.getData()) {
+                            listOfTasks.add(task);
                         }
-                    });
+                        Collections.sort(listOfTasks, new Comparator<Task>() {
+                            @Override
+                            public int compare(Task task, Task t1) {
+                                return Long.compare(task.getCreatedAt().toDate().getTime(), t1.getCreatedAt().toDate().getTime());
+                            }
+                        });
 
-                    for (Task task : listOfTasks
-                    ) {
-                        allTasks.add(new TaskOG(task.getTitle(), task.getBody(), "new"));
-                    }
+                        for (Task task : listOfTasks
+                        ) {
+                            allTasks.add(new TaskOG(task.getTitle(), task.getBody(), "new"));
+                        }
 
-                    handler.sendEmptyMessage(1);
-                },
-                error -> Log.e("MyAmplifyApp", "Query failure", error)
-        );
+                        handler.sendEmptyMessage(1);
+                    },
+                    error -> Log.e("MyAmplifyApp", "Query failure", error)
+            );
+        } else {
+            Amplify.API.query(
+                    ModelQuery.list(Task.class, Task.TEAM_ID.contains(settingsTeamID)),
+                    response -> {
+                        for (Task task : response.getData()) {
+                            listOfTasks.add(task);
+                        }
+                        Collections.sort(listOfTasks, new Comparator<Task>() {
+                            @Override
+                            public int compare(Task task, Task t1) {
+                                return Long.compare(task.getCreatedAt().toDate().getTime(), t1.getCreatedAt().toDate().getTime());
+                            }
+                        });
+
+                        for (Task task : listOfTasks
+                        ) {
+                            allTasks.add(new TaskOG(task.getTitle(), task.getBody(), "new"));
+                        }
+
+                        handler.sendEmptyMessage(1);
+                    },
+                    error -> Log.e("MyAmplifyApp", "Query failure", error)
+            );
+
+
+        }
+
 
     }
 
+
+    private void awsConfigure() {
+        try {
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.configure(getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
+    }
 
     public void addTask(View view) {
         Intent intent = new Intent(this, AddTask.class);

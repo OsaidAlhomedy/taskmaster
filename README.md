@@ -2,17 +2,22 @@
 
 ## About
 
-TaskMaster is a taskOG management android application with the full functionalities that help you focus and be more productive through out the day
+TaskMaster is a taskOG management android application with the full functionalities that help you
+focus and be more productive through out the day
 
 ## Change Log
 
-31/10/2021 : Added the three basic Activities (The Main Activity , The Add Task Activity , and The All Tasks Activity) with the functionality to go back and forth between the activities
+31/10/2021 : Added the three basic Activities (The Main Activity , The Add Task Activity , and The
+All Tasks Activity) with the functionality to go back and forth between the activities
 
-1/11/2021 : Added a taskOG details and settings pages to the application, changed the labels for all activities, and I added some storage functionalities to the application to have temporary persistance data by using the sharedPreferences.
+1/11/2021 : Added a taskOG details and settings pages to the application, changed the labels for all
+activities, and I added some storage functionalities to the application to have temporary
+persistance data by using the sharedPreferences.
 
-2/11/2021 : Added the recycle view with all the required dependencies , also added the functionally to take the user to the taskOG details and render the title correctly.
+2/11/2021 : Added the recycle view with all the required dependencies , also added the functionally
+to take the user to the taskOG details and render the title correctly.
 
-9/11/2021 : Added Amplify as the backend and used the DynamoDB to store data.
+10/11/2021 : Added Amplify as the backend and used the DynamoDB to store and fetch data.
 
 ## Screenshots
 
@@ -45,9 +50,16 @@ Testing is so fast I can not take screenshots of the final result.
 
 ### lab32
 
-![12](screenshots/12.png)
-![13](screenshots/13.png)
-![14](screenshots/14.png)
+![12](screenshots/OLD/12.png)
+![13](screenshots/OLD/13.png)
+![14](screenshots/OLD/14.png)
+
+### lab33
+
+![12](screenshots/15.png)
+![13](screenshots/16.png)
+![14](screenshots/17.png)
+![14](screenshots/18.png)
 
 ## License
 

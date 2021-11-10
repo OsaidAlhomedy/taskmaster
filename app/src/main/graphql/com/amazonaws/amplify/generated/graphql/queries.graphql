@@ -1,40 +1,49 @@
 # this is an auto generated file. This will be overwritten
-query SyncTasks(
-  $filter: ModelTaskFilterInput
+query GetTeam($id: ID!) {
+  getTeam(id: $id) {
+    id
+    name
+    tasks {
+      items {
+        id
+        teamID
+        title
+        body
+        state
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+    createdAt
+    updatedAt
+  }
+}
+query ListTeams(
+  $filter: ModelTeamFilterInput
   $limit: Int
   $nextToken: String
-  $lastSync: AWSTimestamp
 ) {
-  syncTasks(
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-    lastSync: $lastSync
-  ) {
+  listTeams(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      title
-      body
-      state
-      _version
-      _deleted
-      _lastChangedAt
+      name
+      tasks {
+        nextToken
+      }
       createdAt
       updatedAt
     }
     nextToken
-    startedAt
   }
 }
 query GetTask($id: ID!) {
   getTask(id: $id) {
     id
+    teamID
     title
     body
     state
-    _version
-    _deleted
-    _lastChangedAt
     createdAt
     updatedAt
   }
@@ -47,16 +56,13 @@ query ListTasks(
   listTasks(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
+      teamID
       title
       body
       state
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
     nextToken
-    startedAt
   }
 }
