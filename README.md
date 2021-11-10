@@ -5,6 +5,22 @@
 TaskMaster is a taskOG management android application with the full functionalities that help you
 focus and be more productive through out the day
 
+## Google Play Deployment Checklists
+
+[x] Create a new developer account and pay the 25$
+
+[x] Setup the merchent account
+
+[x] export the application with a signed key
+
+[x] add the application and assign a release type to it
+
+[x] review your details and hit publish
+
+[x] wait for the application to be reviewed and accepted.
+
+[] Enjoy the application
+
 ## Change Log
 
 31/10/2021 : Added the three basic Activities (The Main Activity , The Add Task Activity , and The
@@ -18,6 +34,9 @@ persistance data by using the sharedPreferences.
 to take the user to the taskOG details and render the title correctly.
 
 10/11/2021 : Added Amplify as the backend and used the DynamoDB to store and fetch data.
+
+10/11/2021 : Built an APK bundle and included it in the root
+
 
 ## Screenshots
 
