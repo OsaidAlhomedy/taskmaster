@@ -13,11 +13,18 @@ mutation CreateTeam(
         title
         body
         state
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
       }
       nextToken
+      startedAt
     }
+    _version
+    _deleted
+    _lastChangedAt
     createdAt
     updatedAt
   }
@@ -36,11 +43,18 @@ mutation UpdateTeam(
         title
         body
         state
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
       }
       nextToken
+      startedAt
     }
+    _version
+    _deleted
+    _lastChangedAt
     createdAt
     updatedAt
   }
@@ -59,11 +73,18 @@ mutation DeleteTeam(
         title
         body
         state
+        _version
+        _deleted
+        _lastChangedAt
         createdAt
         updatedAt
       }
       nextToken
+      startedAt
     }
+    _version
+    _deleted
+    _lastChangedAt
     createdAt
     updatedAt
   }
@@ -78,6 +99,9 @@ mutation CreateTask(
     title
     body
     state
+    _version
+    _deleted
+    _lastChangedAt
     createdAt
     updatedAt
   }
@@ -92,6 +116,9 @@ mutation UpdateTask(
     title
     body
     state
+    _version
+    _deleted
+    _lastChangedAt
     createdAt
     updatedAt
   }
@@ -106,6 +133,9 @@ mutation DeleteTask(
     title
     body
     state
+    _version
+    _deleted
+    _lastChangedAt
     createdAt
     updatedAt
   }

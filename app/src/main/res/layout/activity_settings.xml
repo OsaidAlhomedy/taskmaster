@@ -21,16 +21,30 @@
 
     <TextView
         android:id="@+id/textView9"
-        android:layout_width="175dp"
-        android:layout_height="30dp"
-        android:text="@string/user_details"
-        android:textAlignment="center"
+        android:layout_width="69dp"
+        android:layout_height="28dp"
+        android:text="User : "
+        android:textAlignment="viewStart"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.167"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
+        app:layout_constraintVertical_bias="0.073" />
+
+    <TextView
+        android:id="@+id/userNameSettings"
+        android:layout_width="107dp"
+        android:layout_height="29dp"
+        android:textAlignment="viewStart"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.414"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.073" />
 
     <EditText
         android:id="@+id/username"
@@ -50,13 +64,27 @@
         android:id="@+id/saveBtn"
         android:layout_width="144dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="160dp"
+        android:layout_marginBottom="188dp"
         android:onClick="saveUser"
         android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/logoutBtn"
+        android:layout_width="144dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="100dp"
+        android:onClick="signOutUser"
+        android:text="Log Out"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveBtn"
+        app:layout_constraintVertical_bias="0.804" />
 
     <RadioGroup
         android:id="@+id/radioGroup2"

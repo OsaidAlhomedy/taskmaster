@@ -22,6 +22,7 @@ import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 
 import com.amplifyframework.datastore.generated.model.Task;
@@ -59,7 +60,7 @@ public class Home extends AppCompatActivity {
 
         Log.i("HOME START", "ON CREATE");
 
-        awsConfigure();
+//        awsConfigure();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
@@ -225,6 +226,7 @@ public class Home extends AppCompatActivity {
         try {
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");

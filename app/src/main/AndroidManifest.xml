@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.osaid.taskmaster">
 
@@ -10,15 +10,21 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-
         android:theme="@style/Theme.Taskmaster">
-
+        <activity
+            android:name=".SignUpConfirmation"
+            android:exported="false"
+            android:label="Verify Your Email"/>
+        <activity
+            android:name=".SignUp"
+            android:exported="false"
+            android:label="Sign Up"/>
         <activity
             android:name=".Settings"
             android:exported="false"
             android:label="@string/settings"
-            android:parentActivityName=".Home"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:parentActivityName=".Home" />
         <activity
             android:name=".TaskDetails"
             android:exported="false"
@@ -35,14 +41,20 @@
             android:exported="false"
             android:label="@string/add_task"
             android:launchMode="singleTop"
-
             android:parentActivityName=".Home" />
         <activity
             android:name=".Home"
-            android:exported="true"
+            android:exported="false"
             android:label="Task Master"
             android:launchMode="singleTop"
             android:value=".MainActivity">
+
+        </activity>
+        <activity
+            android:name=".LogIn"
+            android:exported="true"
+            android:label="TaskMaster">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

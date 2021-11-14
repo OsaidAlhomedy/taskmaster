@@ -37,6 +37,9 @@ to take the user to the taskOG details and render the title correctly.
 
 10/11/2021 : Built an APK bundle and included it in the root
 
+14/11/2021 : added the authentication using AWS Cognito
+
+
 
 ## Screenshots
 
@@ -75,10 +78,16 @@ Testing is so fast I can not take screenshots of the final result.
 
 ### lab33
 
-![12](screenshots/15.png)
-![13](screenshots/16.png)
-![14](screenshots/17.png)
-![14](screenshots/18.png)
+![15](screenshots/OLD/15.png)
+![16](screenshots/OLD/16.png)
+![17](screenshots/OLD/17.png)
+![18](screenshots/OLD/18.png)
+
+### lab35
+
+![19](screenshots/19.png)
+![20](screenshots/20.png)
+![21](screenshots/21.png)
 
 ## License
 
