@@ -2,22 +2,32 @@ package com.osaid.taskmaster;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-public class Settings extends AppCompatActivity {
+import com.amplifyframework.auth.cognito.AWSCognitoAuthSession;
+import com.amplifyframework.core.Amplify;
 
+import org.w3c.dom.Text;
+
+public class Settings extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
+        SharedPreferences sharedPreferences = getSharedPreferences("pref", MODE_PRIVATE);
+        TextView userName = findViewById(R.id.userNameSettings);
+        userName.setText(sharedPreferences.getString("userInfo", ""));
 
     }
 
@@ -30,6 +40,19 @@ public class Settings extends AppCompatActivity {
         editor.putString("username", userNameText);
         editor.apply();
         getTeamName();
+
+    }
+
+    public void signOutUser(View view) {
+
+        Amplify.Auth.signOut(
+                () -> {
+                    Log.i("AuthQuickstart", "Signed out successfully");
+                    Intent intent = new Intent(Settings.this, LogIn.class);
+                    startActivity(intent);
+                },
+                error -> Log.e("AuthQuickstart", error.toString())
+        );
 
     }
 
@@ -52,7 +75,7 @@ public class Settings extends AppCompatActivity {
             teamName = "b86a6c7f-1c51-4c06-9a09-000691d92bb8";
         else teamName = null;
 
-        sharedPreferences.edit().putString("settingsTeamID",teamName).apply();
+        sharedPreferences.edit().putString("settingsTeamID", teamName).apply();
 
     }
 
