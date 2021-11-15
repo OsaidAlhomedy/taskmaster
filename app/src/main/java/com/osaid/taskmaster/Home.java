@@ -38,7 +38,7 @@ import java.util.List;
 public class Home extends AppCompatActivity {
 
     Handler handler;
-    List<TaskOG> allTasks = new ArrayList<>();
+    List<Task> allTasks = new ArrayList<>();
 
 
     @Override
@@ -71,16 +71,6 @@ public class Home extends AppCompatActivity {
         recyclerView.setAdapter(newAdapter);
 
 
-        handler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
-            @Override
-            public boolean handleMessage(@NonNull Message msg) {
-                newAdapter.setTaskOGList(allTasks);
-                Log.i("Async", allTasks.toString());
-                recyclerView.getAdapter().notifyDataSetChanged();
-                return false;
-            }
-        });
-
 
     }
 
@@ -109,6 +99,16 @@ public class Home extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         recyclerView.setAdapter(newAdapter);
+
+        handler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
+            @Override
+            public boolean handleMessage(@NonNull Message msg) {
+                newAdapter.setTaskOGList(allTasks);
+                Log.i("Async", allTasks.toString());
+                recyclerView.getAdapter().notifyDataSetChanged();
+                return false;
+            }
+        });
 
 
     }
@@ -182,11 +182,7 @@ public class Home extends AppCompatActivity {
                             }
                         });
 
-                        for (Task task : listOfTasks
-                        ) {
-                            allTasks.add(new TaskOG(task.getTitle(), task.getBody(), "new"));
-                        }
-
+                        allTasks = listOfTasks;
                         handler.sendEmptyMessage(1);
                     },
                     error -> Log.e("MyAmplifyApp", "Query failure", error)
@@ -205,11 +201,7 @@ public class Home extends AppCompatActivity {
                             }
                         });
 
-                        for (Task task : listOfTasks
-                        ) {
-                            allTasks.add(new TaskOG(task.getTitle(), task.getBody(), "new"));
-                        }
-
+                        allTasks = listOfTasks;
                         handler.sendEmptyMessage(1);
                     },
                     error -> Log.e("MyAmplifyApp", "Query failure", error)

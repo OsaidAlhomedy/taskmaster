@@ -10,6 +10,7 @@ subscription OnCreateTeam {
         title
         body
         state
+        fileURL
         _version
         _deleted
         _lastChangedAt
@@ -37,6 +38,7 @@ subscription OnUpdateTeam {
         title
         body
         state
+        fileURL
         _version
         _deleted
         _lastChangedAt
@@ -64,6 +66,7 @@ subscription OnDeleteTeam {
         title
         body
         state
+        fileURL
         _version
         _deleted
         _lastChangedAt
@@ -87,6 +90,7 @@ subscription OnCreateTask {
     title
     body
     state
+    fileURL
     _version
     _deleted
     _lastChangedAt
@@ -101,6 +105,7 @@ subscription OnUpdateTask {
     title
     body
     state
+    fileURL
     _version
     _deleted
     _lastChangedAt
@@ -115,6 +120,7 @@ subscription OnDeleteTask {
     title
     body
     state
+    fileURL
     _version
     _deleted
     _lastChangedAt

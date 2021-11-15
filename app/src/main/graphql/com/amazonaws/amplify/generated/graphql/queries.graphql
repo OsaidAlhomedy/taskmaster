@@ -39,6 +39,7 @@ query GetTeam($id: ID!) {
         title
         body
         state
+        fileURL
         _version
         _deleted
         _lastChangedAt
@@ -96,6 +97,7 @@ query SyncTasks(
       title
       body
       state
+      fileURL
       _version
       _deleted
       _lastChangedAt
@@ -113,6 +115,7 @@ query GetTask($id: ID!) {
     title
     body
     state
+    fileURL
     _version
     _deleted
     _lastChangedAt
@@ -132,6 +135,7 @@ query ListTasks(
       title
       body
       state
+      fileURL
       _version
       _deleted
       _lastChangedAt

@@ -11,6 +11,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import org.apache.commons.io.FilenameUtils;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -124,6 +125,8 @@ public class AddTask extends AppCompatActivity implements HandlePathOzListener.S
             Log.e(TAG, "onRequestHandlePathOz: ERRRRROR");
         }
 
+        SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
+
         Log.i(TAG, "onRequestHandlePathOz: ====> URI === " + pathOz.getPath());
 
         String fileName = FilenameUtils.getName(pathOz.getPath());
@@ -133,7 +136,17 @@ public class AddTask extends AppCompatActivity implements HandlePathOzListener.S
         Amplify.Storage.uploadFile(
                 fileName,
                 file,
-                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                uploadFileResult -> {
+                    Log.i("MyAmplifyApp", "Successfully uploaded: " + uploadFileResult.getKey());
+                    Amplify.Storage.getUrl(
+                            uploadFileResult.getKey(),
+                            result -> {
+                                Log.i("MyAmplifyApp", "Successfully generated: " + result.getUrl());
+                                sharedPreferences.edit().putString("fileUrl", result.getUrl().toString()).apply();
+                            },
+                            error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+                    );
+                },
                 storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
         );
 
@@ -156,8 +169,6 @@ public class AddTask extends AppCompatActivity implements HandlePathOzListener.S
 
     public void taskAdd(View view) {
         String TAG = "AddTaskActivity";
-        SharedPreferences sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
-
         EditText taskTitleEditText = findViewById(R.id.taskTitleEditText);
         String title = taskTitleEditText.getText().toString();
 
@@ -172,11 +183,12 @@ public class AddTask extends AppCompatActivity implements HandlePathOzListener.S
 //        TaskOG newTaskOG = new TaskOG(title, body, "new");
 //        AppDB.getInstance(AddTask.this).taskDAO().insertTask(newTaskOG);
 
-
+        String url = getSharedPreferences("myPref", MODE_PRIVATE).getString("fileUrl", "No File");
         Task newTask = Task.builder().teamId(teamID)
                 .title(title)
                 .body(body)
                 .state("new")
+                .fileUrl(url)
                 .build();
 
 

@@ -11,15 +11,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.datastore.generated.model.Task;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHolder> {
 
-    private List<TaskOG> taskOGList = new ArrayList<>();
+    private List<Task> taskOGList = new ArrayList<>();
     private final Context context;
 
-    public TasksAdapter(Context context, List<TaskOG> taskOGList) {
+    public TasksAdapter(Context context, List<Task> taskOGList) {
         this.context = context;
         this.taskOGList = taskOGList;
     }
@@ -27,7 +29,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
 
     public class TaskViewHolder extends RecyclerView.ViewHolder {
 
-        private TaskOG taskOG;
+        private Task taskOG;
         private final View itemView;
 
         public TaskViewHolder(@NonNull View itemView) {
@@ -45,11 +47,15 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
                     String title = taskOGList.get(position).getTitle();
                     String body = taskOGList.get(position).getBody();
                     String state = taskOGList.get(position).getState();
+                    String url = taskOGList.get(position).getFileUrl();
+                    String id = taskOGList.get(position).getId();
 
                     intent.putExtra("taskTitle", title);
                     intent.putExtra("taskBody", body);
                     intent.putExtra("taskState", state);
-                    Log.d("ADAPTER", "Position : " + position + "  title : " + title + " ID : ");
+                    intent.putExtra("taskURL", url);
+                    intent.putExtra("taskIDID", id);
+                    Log.d("ADAPTER", "Position : " + position + "  title : " + title + " ID : " + id + "URL => " + url);
                     context.startActivity(intent);
 
                 }
@@ -87,11 +93,11 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
         return taskOGList.size();
     }
 
-    public List<TaskOG> getTaskList() {
+    public List<Task> getTaskList() {
         return taskOGList;
     }
 
-    public void setTaskOGList(List<TaskOG> taskOGList) {
+    public void setTaskOGList(List<Task> taskOGList) {
         this.taskOGList = taskOGList;
     }
 }

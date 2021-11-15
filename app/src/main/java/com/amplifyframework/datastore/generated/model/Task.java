@@ -26,11 +26,13 @@ public final class Task implements Model {
   public static final QueryField TITLE = field("Task", "title");
   public static final QueryField BODY = field("Task", "body");
   public static final QueryField STATE = field("Task", "state");
+  public static final QueryField FILE_URL = field("Task", "fileURL");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="ID", isRequired = true) String teamID;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String") String body;
   private final @ModelField(targetType="String") String state;
+  private final @ModelField(targetType="String") String fileURL;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
@@ -53,6 +55,10 @@ public final class Task implements Model {
       return state;
   }
   
+  public String getFileUrl() {
+      return fileURL;
+  }
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -61,12 +67,13 @@ public final class Task implements Model {
       return updatedAt;
   }
   
-  private Task(String id, String teamID, String title, String body, String state) {
+  private Task(String id, String teamID, String title, String body, String state, String fileURL) {
     this.id = id;
     this.teamID = teamID;
     this.title = title;
     this.body = body;
     this.state = state;
+    this.fileURL = fileURL;
   }
   
   @Override
@@ -82,6 +89,7 @@ public final class Task implements Model {
               ObjectsCompat.equals(getTitle(), task.getTitle()) &&
               ObjectsCompat.equals(getBody(), task.getBody()) &&
               ObjectsCompat.equals(getState(), task.getState()) &&
+              ObjectsCompat.equals(getFileUrl(), task.getFileUrl()) &&
               ObjectsCompat.equals(getCreatedAt(), task.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
       }
@@ -95,6 +103,7 @@ public final class Task implements Model {
       .append(getTitle())
       .append(getBody())
       .append(getState())
+      .append(getFileUrl())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -110,6 +119,7 @@ public final class Task implements Model {
       .append("title=" + String.valueOf(getTitle()) + ", ")
       .append("body=" + String.valueOf(getBody()) + ", ")
       .append("state=" + String.valueOf(getState()) + ", ")
+      .append("fileURL=" + String.valueOf(getFileUrl()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
@@ -134,6 +144,7 @@ public final class Task implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -143,7 +154,8 @@ public final class Task implements Model {
       teamID,
       title,
       body,
-      state);
+      state,
+      fileURL);
   }
   public interface TeamIdStep {
     TitleStep teamId(String teamId);
@@ -160,6 +172,7 @@ public final class Task implements Model {
     BuildStep id(String id);
     BuildStep body(String body);
     BuildStep state(String state);
+    BuildStep fileUrl(String fileUrl);
   }
   
 
@@ -169,6 +182,7 @@ public final class Task implements Model {
     private String title;
     private String body;
     private String state;
+    private String fileURL;
     @Override
      public Task build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -178,7 +192,8 @@ public final class Task implements Model {
           teamID,
           title,
           body,
-          state);
+          state,
+          fileURL);
     }
     
     @Override
@@ -207,6 +222,12 @@ public final class Task implements Model {
         return this;
     }
     
+    @Override
+     public BuildStep fileUrl(String fileUrl) {
+        this.fileURL = fileUrl;
+        return this;
+    }
+    
     /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
@@ -219,12 +240,13 @@ public final class Task implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String teamId, String title, String body, String state) {
+    private CopyOfBuilder(String id, String teamId, String title, String body, String state, String fileUrl) {
       super.id(id);
       super.teamId(teamId)
         .title(title)
         .body(body)
-        .state(state);
+        .state(state)
+        .fileUrl(fileUrl);
     }
     
     @Override
@@ -245,6 +267,11 @@ public final class Task implements Model {
     @Override
      public CopyOfBuilder state(String state) {
       return (CopyOfBuilder) super.state(state);
+    }
+    
+    @Override
+     public CopyOfBuilder fileUrl(String fileUrl) {
+      return (CopyOfBuilder) super.fileUrl(fileUrl);
     }
   }
   

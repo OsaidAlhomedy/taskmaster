@@ -10,4 +10,5 @@ type Task @model @key(name: "byTeam", fields: ["teamID", "title"]) {
     title : String!
     body : String
     state : String
+    fileURL : String
 }
