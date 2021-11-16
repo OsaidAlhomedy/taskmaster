@@ -39,7 +39,7 @@ to take the user to the taskOG details and render the title correctly.
 
 14/11/2021 : added the authentication using AWS Cognito
 
-
+15/11/2021 : added the AWS S3 storage to my application in order to store data
 
 ## Screenshots
 
@@ -85,9 +85,16 @@ Testing is so fast I can not take screenshots of the final result.
 
 ### lab35
 
-![19](screenshots/19.png)
-![20](screenshots/20.png)
-![21](screenshots/21.png)
+![19](screenshots/OLD/19.png)
+![20](screenshots/OLD/20.png)
+![21](screenshots/OLD/21.png)
+
+### lab36
+
+![22](screenshots/22.png)
+![23](screenshots/23.png)
+![24](screenshots/24.png)
+![24](screenshots/25.png)
 
 ## License
 

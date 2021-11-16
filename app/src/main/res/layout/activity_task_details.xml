@@ -36,12 +36,26 @@
 
     <TextView
         android:id="@+id/taskBody"
-        android:layout_width="339dp"
-        android:layout_height="355dp"
+        android:layout_width="328dp"
+        android:layout_height="99dp"
         android:text="@string/lorem"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.421"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskTitle"
-        app:layout_constraintVertical_bias="0.403" />
+        app:layout_constraintVertical_bias="0.152" />
+
+    <ImageView
+        android:id="@+id/imageTaskDetails"
+        android:layout_width="330dp"
+        android:layout_height="257dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.407"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskBody"
+        app:layout_constraintVertical_bias="0.015" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
