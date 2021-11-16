@@ -17,14 +17,13 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.io.FilenameUtils;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 public class TaskDetails extends AppCompatActivity {
-
-
-    Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,6 @@ public class TaskDetails extends AppCompatActivity {
 
         String url = intent.getExtras().getString("taskURL");
         ImageView image = findViewById(R.id.imageTaskDetails);
-
         Picasso.get().load(url).into(image);
 
     }
