@@ -6,6 +6,8 @@ TaskMaster is a taskOG management android application with the full functionalit
 focus and be more productive through out the day
 
 ## Google Play Deployment Checklists
+]
+[Google Play Application](https://play.google.com/store/apps/details?id=com.osaid.taskmaster)
 
 [x] Create a new developer account and pay the 25$
 
@@ -19,7 +21,7 @@ focus and be more productive through out the day
 
 [x] wait for the application to be reviewed and accepted.
 
-[] Enjoy the application
+[x] Enjoy the application
 
 ## Change Log
 
@@ -40,6 +42,10 @@ to take the user to the taskOG details and render the title correctly.
 14/11/2021 : added the authentication using AWS Cognito
 
 15/11/2021 : added the AWS S3 storage to my application in order to store data
+
+16/11/2021 : added the AWS push notification to the application
+
+17/11/2021 : added AWS pinpoint analytics and event recorders to the application
 
 ## Screenshots
 
@@ -91,10 +97,16 @@ Testing is so fast I can not take screenshots of the final result.
 
 ### lab36
 
-![22](screenshots/22.png)
-![23](screenshots/23.png)
-![24](screenshots/24.png)
-![24](screenshots/25.png)
+![22](screenshots/OLD/22.png)
+![23](screenshots/OLD/23.png)
+![24](screenshots/OLD/24.png)
+![24](screenshots/OLD/25.png)
+
+### lab39
+
+![26](screenshots/26.png)
+![27](screenshots/27.png)
+![28](screenshots/28.png)
 
 ## License
 

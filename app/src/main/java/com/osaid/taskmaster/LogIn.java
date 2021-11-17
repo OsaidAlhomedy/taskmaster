@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.AnalyticsEvent;
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
@@ -27,8 +29,6 @@ public class LogIn extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
@@ -50,7 +50,7 @@ public class LogIn extends AppCompatActivity {
     }
 
     public void userSignIn(View view) {
-        SharedPreferences sharedPreferences = getSharedPreferences("pref",MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("pref", MODE_PRIVATE);
         EditText userNameView = findViewById(R.id.usernameSignIn);
         String userName = userNameView.getText().toString();
         EditText passwordView = findViewById(R.id.passwordSignin);
@@ -61,8 +61,9 @@ public class LogIn extends AppCompatActivity {
                 password,
                 result -> {
                     Log.i("AuthQuickstart", result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete");
-                    sharedPreferences.edit().putString("userInfo",userName).apply();
+                    sharedPreferences.edit().putString("userInfo", userName).apply();
                     Intent intent = new Intent(LogIn.this, Home.class);
+                    eventRecord1();
                     startActivity(intent);
                 },
                 error -> {
@@ -72,8 +73,9 @@ public class LogIn extends AppCompatActivity {
         );
     }
 
-    public void goToRegisterUser(View view){
+    public void goToRegisterUser(View view) {
         Intent intent = new Intent(LogIn.this, SignUp.class);
+        eventRecord2();
         startActivity(intent);
     }
 
@@ -83,12 +85,35 @@ public class LogIn extends AppCompatActivity {
             Amplify.addPlugin(new AWSApiPlugin());
             Amplify.addPlugin(new AWSS3StoragePlugin());
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(getApplication()));
             Amplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
+    }
+
+    private void eventRecord1() {
+        String userName = getSharedPreferences("pref", MODE_PRIVATE).getString("userInfo", "no user info");
+        AnalyticsEvent event = AnalyticsEvent.builder()
+                .name("User Successfully Logged In")
+                .addProperty("UserName", userName)
+                .build();
+
+        Amplify.Analytics.recordEvent(event);
+
+    }
+
+    private void eventRecord2() {
+        String userName = getSharedPreferences("pref", MODE_PRIVATE).getString("userInfo", "no user info");
+        AnalyticsEvent event = AnalyticsEvent.builder()
+                .name("User Launched Sign Up Activity")
+                .addProperty("UserName", userName)
+                .build();
+
+        Amplify.Analytics.recordEvent(event);
+
     }
 
 }

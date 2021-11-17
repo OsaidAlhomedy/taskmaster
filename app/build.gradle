@@ -38,6 +38,8 @@ dependencies {
 
     implementation 'commons-io:commons-io:2.6'
 
+    implementation 'com.amplifyframework:aws-analytics-pinpoint:1.29.0'
+
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:29.0.0')
     // Add the dependency for the Firebase SDK for Google Analytics
