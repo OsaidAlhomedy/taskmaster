@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amplifyframework.analytics.AnalyticsEvent;
+import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 
 import java.util.ArrayList;
@@ -56,6 +58,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
                     intent.putExtra("taskURL", url);
                     intent.putExtra("taskIDID", id);
                     Log.d("ADAPTER", "Position : " + position + "  title : " + title + " ID : " + id + "URL => " + url);
+                    eventRecord1();
                     context.startActivity(intent);
 
                 }
@@ -100,4 +103,15 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
     public void setTaskOGList(List<Task> taskOGList) {
         this.taskOGList = taskOGList;
     }
+
+    private void eventRecord1() {
+
+        AnalyticsEvent event = AnalyticsEvent.builder()
+                .name("User Launched Task Details Activity")
+                .build();
+
+        Amplify.Analytics.recordEvent(event);
+
+    }
+
 }

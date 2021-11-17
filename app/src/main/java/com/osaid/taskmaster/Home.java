@@ -29,6 +29,7 @@ import com.amazonaws.mobileconnectors.pinpoint.targeting.TargetingClient;
 import com.amazonaws.mobileconnectors.pinpoint.targeting.endpointProfile.EndpointProfile;
 import com.amazonaws.mobileconnectors.pinpoint.targeting.endpointProfile.EndpointProfileUser;
 import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.AnalyticsEvent;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
@@ -114,8 +115,6 @@ public class Home extends AppCompatActivity {
         Log.i("HOME START", "ON CREATE");
 
 //        awsConfigure();
-
-
 
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
@@ -281,6 +280,39 @@ public class Home extends AppCompatActivity {
 
     }
 
+    private void eventRecord1() {
+        String userName = getSharedPreferences("pref", MODE_PRIVATE).getString("userInfo", "no user info");
+        AnalyticsEvent event = AnalyticsEvent.builder()
+                .name("User Launched Settings")
+                .addProperty("UserName", userName)
+                .build();
+
+        Amplify.Analytics.recordEvent(event);
+
+    }
+
+    private void eventRecord2() {
+        String userName = getSharedPreferences("pref", MODE_PRIVATE).getString("userInfo", "no user info");
+        AnalyticsEvent event = AnalyticsEvent.builder()
+                .name("User Launched Add task activity")
+                .addProperty("UserName", userName)
+                .build();
+
+        Amplify.Analytics.recordEvent(event);
+
+    }
+
+    private void eventRecord3() {
+        String userName = getSharedPreferences("pref", MODE_PRIVATE).getString("userInfo", "no user info");
+        AnalyticsEvent event = AnalyticsEvent.builder()
+                .name("User Launched All tasks activity")
+                .addProperty("UserName", userName)
+                .build();
+
+        Amplify.Analytics.recordEvent(event);
+
+    }
+
 
     private void awsConfigure() {
         try {
@@ -297,18 +329,21 @@ public class Home extends AppCompatActivity {
 
     public void addTask(View view) {
         Intent intent = new Intent(this, AddTask.class);
+        eventRecord2();
         startActivity(intent);
 
     }
 
     public void allTask(View view) {
         Intent intent = new Intent(this, AllTasks.class);
+        eventRecord3();
         startActivity(intent);
 
     }
 
     public void goToSettings(View view) {
         Intent intent = new Intent(this, Settings.class);
+        eventRecord1();
         startActivity(intent);
     }
 
