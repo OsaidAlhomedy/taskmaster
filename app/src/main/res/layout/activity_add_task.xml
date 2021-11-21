@@ -55,6 +55,20 @@
         tools:ignore="TextContrastCheck" />
 
     <Button
+        android:id="@+id/attachFileBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/attach_file"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.71"
+        app:layout_constraintStart_toEndOf="@+id/addTskButton"
+        app:layout_constraintTop_toTopOf="@+id/addTskButton"
+        app:layout_constraintVertical_bias="0.009"
+        tools:ignore="DuplicateSpeakableTextCheck" />
+
+    <Button
         android:id="@+id/addTskButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,24 +77,10 @@
         android:textColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.132"
+        app:layout_constraintHorizontal_bias="0.115"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskBodyEditText"
-        app:layout_constraintVertical_bias="0.377"
-        tools:ignore="DuplicateSpeakableTextCheck" />
-
-    <Button
-        android:id="@+id/attachFileBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/attach_file"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.735"
-        app:layout_constraintStart_toEndOf="@+id/addTskButton"
-        app:layout_constraintTop_toTopOf="@+id/addTskButton"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.518"
         tools:ignore="DuplicateSpeakableTextCheck" />
 
     <TextView
@@ -158,6 +158,18 @@
             android:text="Team 3" />
 
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/uploadedFileName"
+        android:layout_width="128dp"
+        android:layout_height="20dp"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/attachFileBtn"
+        app:layout_constraintEnd_toEndOf="@+id/attachFileBtn"
+        app:layout_constraintStart_toStartOf="@+id/attachFileBtn"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        tools:visibility="invisible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

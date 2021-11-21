@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.osaid.taskmaster">
@@ -6,30 +7,40 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
 
     <application
         android:allowBackup="true"
+        android:label="TaskMaster"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Taskmaster">
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_baseline_notifications_24" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/purple_500" />
+
         <service
             android:name=".PushListenerService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <activity
             android:name=".SignUpConfirmation"
             android:exported="false"
-            android:label="Verify Your Email"/>
+            android:label="Verify Your Email" />
         <activity
             android:name=".SignUp"
             android:exported="false"
-            android:label="Sign Up"/>
+            android:label="Sign Up" />
         <activity
             android:name=".Settings"
             android:exported="false"
@@ -49,10 +60,22 @@
             android:parentActivityName=".Home" />
         <activity
             android:name=".AddTask"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/add_task"
             android:launchMode="singleTop"
-            android:parentActivityName=".Home" />
+            android:parentActivityName=".Home">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/*" />
+                <data android:mimeType="audio/*" />
+                <data android:mimeType="image/*" />
+                <data android:mimeType="message/*" />
+                <data android:mimeType="multipart/*" />
+                <data android:mimeType="text/*" />
+                <data android:mimeType="video/*" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Home"
             android:exported="false"
@@ -65,11 +88,13 @@
             android:name=".LogIn"
             android:exported="true"
             android:label="TaskMaster">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="OPEN_ACTIVITY_1" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 

@@ -14,6 +14,7 @@ import org.apache.commons.io.FilenameUtils;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -29,9 +30,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.aws.AWSApiPluginConfiguration;
 import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -47,12 +54,14 @@ public class AddTask extends AppCompatActivity implements HandlePathOzListener.S
     private static final int REQUEST_PERMISSION = 123;
     private static final String TAG = "AddTask";
     private HandlePathOz handlePathOz;
+    private Uri uriGlobal = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
+        awsConfigure();
 
         TextView tasks = findViewById(R.id.textView6);
         int tasksNumbers = AppDB.getInstance(this).taskDAO().getAllTasks().size();
@@ -63,6 +72,11 @@ public class AddTask extends AppCompatActivity implements HandlePathOzListener.S
         button.setOnClickListener((view) -> {
             openFile();
         });
+
+        if (getIntent().getClipData() != null) {
+            uriGlobal = getIntent().getClipData().getItemAt(0).getUri();
+            handlePathOz.getRealPath(uriGlobal);
+        }
 
 
     }
@@ -75,6 +89,18 @@ public class AddTask extends AppCompatActivity implements HandlePathOzListener.S
         tasks.setText(String.valueOf(tasksNumbers));
     }
 
+    public void showToast(String name) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView uploadedFileView = findViewById(R.id.uploadedFileName);
+                uploadedFileView.setText(name);
+                uploadedFileView.setVisibility(View.VISIBLE);
+                Toast toast = Toast.makeText(getApplicationContext(), "The file has been added to the task", Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
+    }
 
     ////////////////////////////////////////////////////////////
 
@@ -143,6 +169,8 @@ public class AddTask extends AppCompatActivity implements HandlePathOzListener.S
                             result -> {
                                 Log.i("MyAmplifyApp", "Successfully generated: " + result.getUrl());
                                 sharedPreferences.edit().putString("fileUrl", result.getUrl().toString()).apply();
+                                showToast(fileName);
+                                uriGlobal = null;
                             },
                             error -> Log.e("MyAmplifyApp", "URL generation failure", error)
                     );
@@ -227,6 +255,21 @@ public class AddTask extends AppCompatActivity implements HandlePathOzListener.S
         else teamName = null;
 
         return teamName;
+    }
+
+    private void awsConfigure() {
+        try {
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.addPlugin(new AWSS3StoragePlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(getApplication()));
+            Amplify.configure(getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
     }
 
 
