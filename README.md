@@ -47,6 +47,8 @@ to take the user to the taskOG details and render the title correctly.
 
 17/11/2021 : added AWS pinpoint analytics and event recorders to the application
 
+21/11/2021 : added the intent filter to allow users to share a photo to the application and add it to the task
+
 ## Screenshots
 
 ### lab26
@@ -104,9 +106,15 @@ Testing is so fast I can not take screenshots of the final result.
 
 ### lab39
 
-![26](screenshots/26.png)
-![27](screenshots/27.png)
-![28](screenshots/28.png)
+![26](screenshots/OLD/26.png)
+![27](screenshots/OLD/27.png)
+![28](screenshots/OLD/28.png)
+
+### lab40
+
+![29](screenshots/29.png)
+![30](screenshots/30.png)
+![31](screenshots/31.png)
 
 ## License
 

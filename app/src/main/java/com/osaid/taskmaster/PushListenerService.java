@@ -25,12 +25,11 @@ public class PushListenerService extends FirebaseMessagingService {
     // Intent keys
     public static final String INTENT_SNS_NOTIFICATION_FROM = "from";
     public static final String INTENT_SNS_NOTIFICATION_DATA = "data";
-    public static final int NOTIFICATION_ID = 999;
+    public static final int NOTIFICATION_ID = 100;
 
     @Override
-    public void onNewToken(String token) {
+    public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
-
         Log.d(TAG, "Registering push notifications token: " + token);
         Home.getPinpointManager(getApplicationContext()).getNotificationClient().registerDeviceToken(token);
     }
@@ -38,16 +37,21 @@ public class PushListenerService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Log.d(TAG, "Message: " + remoteMessage.getData());
+        Log.d(TAG, "Message: " + remoteMessage.getNotification().getTitle());
+        Log.d(TAG, "Message: " + remoteMessage.getNotification().getBody());
+        String title = remoteMessage.getNotification().getTitle();
+        String body = remoteMessage.getNotification().getBody();
+
 
         // this code works from google notification docs
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(remoteMessage.getData().get("pinpoint.notification.title"))
-                .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark_normal)
-                .setContentText(remoteMessage.getData().get("pinpoint.notification.body"))
+                .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(body))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        Log.i(TAG, remoteMessage.getData().toString());
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 

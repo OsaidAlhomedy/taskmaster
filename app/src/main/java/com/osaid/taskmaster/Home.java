@@ -6,10 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -18,6 +21,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.client.Callback;
@@ -25,15 +29,9 @@ import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
 import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
-import com.amazonaws.mobileconnectors.pinpoint.targeting.TargetingClient;
-import com.amazonaws.mobileconnectors.pinpoint.targeting.endpointProfile.EndpointProfile;
-import com.amazonaws.mobileconnectors.pinpoint.targeting.endpointProfile.EndpointProfileUser;
-import com.amplifyframework.AmplifyException;
 import com.amplifyframework.analytics.AnalyticsEvent;
-import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
-import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 
 import com.amplifyframework.datastore.generated.model.Task;
@@ -78,17 +76,14 @@ public class Home extends AppCompatActivity {
             pinpointManager = new PinpointManager(pinpointConfig);
 
             FirebaseMessaging.getInstance().getToken()
-                    .addOnCompleteListener(new OnCompleteListener<String>() {
-                        @Override
-                        public void onComplete(@NonNull com.google.android.gms.tasks.Task<String> task) {
-                            if (!task.isSuccessful()) {
-                                Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-                                return;
-                            }
-                            final String token = task.getResult();
-                            Log.d(TAG, "Registering push notifications token: " + token);
-                            pinpointManager.getNotificationClient().registerDeviceToken(token);
+                    .addOnCompleteListener(task -> {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
                         }
+                        final String token = task.getResult();
+                        Log.d(TAG, "Registering push notifications token =========>>>>>>>>>>>>>>>> " + token);
+                        pinpointManager.getNotificationClient().registerDeviceToken(token);
                     });
         }
         return pinpointManager;
@@ -115,7 +110,8 @@ public class Home extends AppCompatActivity {
         Log.i("HOME START", "ON CREATE");
 
 //        awsConfigure();
-
+        createNotificationChannel();
+        getPinpointManager(getApplicationContext());
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
@@ -145,8 +141,8 @@ public class Home extends AppCompatActivity {
         }
 
         getTasks();
-        getPinpointManager(getApplicationContext());
-        assignUserIdToEndpoint();
+
+
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
@@ -169,17 +165,21 @@ public class Home extends AppCompatActivity {
 
     }
 
-    public void assignUserIdToEndpoint() {
-        TargetingClient targetingClient = pinpointManager.getTargetingClient();
-        EndpointProfile endpointProfile = targetingClient.currentEndpoint();
-        EndpointProfileUser endpointProfileUser = new EndpointProfileUser();
-        endpointProfileUser.setUserId("UserIdValue");
-        endpointProfile.setUser(endpointProfileUser);
-        targetingClient.updateEndpointProfile(endpointProfile);
-        Log.d(TAG, "Assigned user ID " + endpointProfileUser.getUserId() +
-                " to endpoint " + endpointProfile.getEndpointId());
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "osaid";
+            String description = "nothing to describe";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("CHANNEL_ID", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
-
 
     private void teamSeeder(SharedPreferences sharedPreferences) {
         String TAG = "teamSeeder";
@@ -314,19 +314,6 @@ public class Home extends AppCompatActivity {
     }
 
 
-    private void awsConfigure() {
-        try {
-            Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.configure(getApplicationContext());
-
-            Log.i("MyAmplifyApp", "Initialized Amplify");
-        } catch (AmplifyException error) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
-        }
-    }
-
     public void addTask(View view) {
         Intent intent = new Intent(this, AddTask.class);
         eventRecord2();
@@ -344,12 +331,6 @@ public class Home extends AppCompatActivity {
     public void goToSettings(View view) {
         Intent intent = new Intent(this, Settings.class);
         eventRecord1();
-        startActivity(intent);
-    }
-
-    public void taskDetails(String title) {
-        Intent intent = new Intent(Home.this, TaskDetails.class);
-        intent.putExtra("taskTitle", title);
         startActivity(intent);
     }
 
