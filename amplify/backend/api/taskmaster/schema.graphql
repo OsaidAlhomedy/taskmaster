@@ -11,4 +11,6 @@ type Task @model @key(name: "byTeam", fields: ["teamID", "title"]) {
     body : String
     state : String
     fileURL : String
+    longitude : Float
+    latitude : Float
 }

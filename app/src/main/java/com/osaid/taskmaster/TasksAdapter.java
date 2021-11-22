@@ -51,12 +51,16 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
                     String state = taskOGList.get(position).getState();
                     String url = taskOGList.get(position).getFileUrl();
                     String id = taskOGList.get(position).getId();
+                    double longitude = taskOGList.get(position).getLongitude();
+                    double latitude = taskOGList.get(position).getLatitude();
 
                     intent.putExtra("taskTitle", title);
                     intent.putExtra("taskBody", body);
                     intent.putExtra("taskState", state);
                     intent.putExtra("taskURL", url);
                     intent.putExtra("taskIDID", id);
+                    intent.putExtra("longitude",longitude);
+                    intent.putExtra("latitude",latitude);
                     Log.d("ADAPTER", "Position : " + position + "  title : " + title + " ID : " + id + "URL => " + url);
                     eventRecord1();
                     context.startActivity(intent);

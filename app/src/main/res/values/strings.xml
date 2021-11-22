@@ -46,4 +46,5 @@ consequuntur! Commodi minima excepturi repudiandae velit hic maxime</string>
     <string name="confirm">Confirm</string>
     <string name="the_code_is_wrong_try_again">The code is wrong, Try again</string>
     <string name="attach_file">Attach File</string>
+    <string name="this_image_is_attached_to_the_task">this image is attached to the task</string>
 </resources>
