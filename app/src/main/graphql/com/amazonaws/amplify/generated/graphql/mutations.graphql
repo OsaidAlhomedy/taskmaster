@@ -14,6 +14,8 @@ mutation CreateTeam(
         body
         state
         fileURL
+        longitude
+        latitude
         _version
         _deleted
         _lastChangedAt
@@ -45,6 +47,8 @@ mutation UpdateTeam(
         body
         state
         fileURL
+        longitude
+        latitude
         _version
         _deleted
         _lastChangedAt
@@ -76,6 +80,8 @@ mutation DeleteTeam(
         body
         state
         fileURL
+        longitude
+        latitude
         _version
         _deleted
         _lastChangedAt
@@ -103,6 +109,8 @@ mutation CreateTask(
     body
     state
     fileURL
+    longitude
+    latitude
     _version
     _deleted
     _lastChangedAt
@@ -121,6 +129,8 @@ mutation UpdateTask(
     body
     state
     fileURL
+    longitude
+    latitude
     _version
     _deleted
     _lastChangedAt
@@ -139,6 +149,8 @@ mutation DeleteTask(
     body
     state
     fileURL
+    longitude
+    latitude
     _version
     _deleted
     _lastChangedAt

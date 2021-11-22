@@ -49,6 +49,8 @@ to take the user to the taskOG details and render the title correctly.
 
 21/11/2021 : added the intent filter to allow users to share a photo to the application and add it to the task
 
+22/11/2021 : added the task location in the task details
+
 ## Screenshots
 
 ### lab26
@@ -112,8 +114,12 @@ Testing is so fast I can not take screenshots of the final result.
 
 ### lab40
 
-![29](screenshots/29.png)
-![30](screenshots/30.png)
+![29](screenshots/OLD/29.png)
+![30](screenshots/OLD/30.png)
+![31](screenshots/31.png)
+
+### lab41
+
 ![31](screenshots/31.png)
 
 ## License

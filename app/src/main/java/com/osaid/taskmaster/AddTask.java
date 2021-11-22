@@ -15,12 +15,17 @@ import org.apache.commons.io.FilenameUtils;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +44,19 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.permissionx.guolindev.PermissionX;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -55,6 +73,18 @@ public class AddTask extends AppCompatActivity implements HandlePathOzListener.S
     private static final String TAG = "AddTask";
     private HandlePathOz handlePathOz;
     private Uri uriGlobal = null;
+    private static final int PERMISSION_ID = 1000;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private double latitude;
+    private double longitude;
+
+    private final LocationCallback mLocationCallback = new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Location mLastLocation = locationResult.getLastLocation();
+            Log.i(TAG, "The location is => " + mLastLocation);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +108,7 @@ public class AddTask extends AppCompatActivity implements HandlePathOzListener.S
             handlePathOz.getRealPath(uriGlobal);
         }
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
     }
 
@@ -87,6 +118,7 @@ public class AddTask extends AppCompatActivity implements HandlePathOzListener.S
         TextView tasks = findViewById(R.id.textView6);
         int tasksNumbers = AppDB.getInstance(this).taskDAO().getAllTasks().size();
         tasks.setText(String.valueOf(tasksNumbers));
+        getLastLocation();
     }
 
     public void showToast(String name) {
@@ -180,19 +212,6 @@ public class AddTask extends AppCompatActivity implements HandlePathOzListener.S
 
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_PERMISSION) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openFile();
-            } else {
-                //TODO("show Message to the user")
-                Log.i(TAG, "onRequestPermissionsResult: ERRRORRRRR =>>>>> PERMISSION FIELD");
-            }
-        }
-    }
-
     /////////////////////////////////////////////////////////////////
 
     public void taskAdd(View view) {
@@ -217,6 +236,8 @@ public class AddTask extends AppCompatActivity implements HandlePathOzListener.S
                 .body(body)
                 .state("new")
                 .fileUrl(url)
+                .longitude(longitude)
+                .latitude(latitude)
                 .build();
 
 
@@ -269,6 +290,97 @@ public class AddTask extends AppCompatActivity implements HandlePathOzListener.S
             Log.i("MyAmplifyApp", "Initialized Amplify");
         } catch (AmplifyException error) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
+    }
+
+
+    @SuppressLint("MissingPermission")
+    private void getLastLocation() {
+        if (checkPermissions()) {
+
+            if (isLocationEnabled()) {
+                mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull com.google.android.gms.tasks.Task<Location> task) {
+
+                        Location location = task.getResult();
+
+                        if (location == null) {
+                            requestNewLocationData();
+                        } else {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                            Log.i(TAG, "LAT ====>: " + latitude);
+                            Log.i(TAG, "LONG ====>: " + longitude);
+                        }
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Please turn on your location...", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+
+        } else {
+            requestPermissions();
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void requestNewLocationData() {
+        // Initializing LocationRequest
+        // object with appropriate methods
+        LocationRequest locationRequest = new LocationRequest();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(5);
+        locationRequest.setFastestInterval(0);
+        locationRequest.setNumUpdates(10);
+
+        // setting LocationRequest
+        // on FusedLocationClient
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this); // this may or may not be needed
+        mFusedLocationClient.requestLocationUpdates(locationRequest, mLocationCallback, Looper.myLooper());
+    }
+
+    private boolean checkPermissions() {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+        // If we want background location
+        // on Android 10.0 and higher,
+        // use:
+        // ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
+    }
+
+    private boolean isLocationEnabled() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSION_ID) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLastLocation();
+            }
+        }
+        if (requestCode == REQUEST_PERMISSION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openFile();
+            } else {
+                //TODO("show Message to the user")
+                Log.i(TAG, "onRequestPermissionsResult: ERRRORRRRR =>>>>> PERMISSION FIELD");
+            }
         }
     }
 

@@ -11,6 +11,8 @@ subscription OnCreateTeam {
         body
         state
         fileURL
+        longitude
+        latitude
         _version
         _deleted
         _lastChangedAt
@@ -39,6 +41,8 @@ subscription OnUpdateTeam {
         body
         state
         fileURL
+        longitude
+        latitude
         _version
         _deleted
         _lastChangedAt
@@ -67,6 +71,8 @@ subscription OnDeleteTeam {
         body
         state
         fileURL
+        longitude
+        latitude
         _version
         _deleted
         _lastChangedAt
@@ -91,6 +97,8 @@ subscription OnCreateTask {
     body
     state
     fileURL
+    longitude
+    latitude
     _version
     _deleted
     _lastChangedAt
@@ -106,6 +114,8 @@ subscription OnUpdateTask {
     body
     state
     fileURL
+    longitude
+    latitude
     _version
     _deleted
     _lastChangedAt
@@ -121,6 +131,8 @@ subscription OnDeleteTask {
     body
     state
     fileURL
+    longitude
+    latitude
     _version
     _deleted
     _lastChangedAt

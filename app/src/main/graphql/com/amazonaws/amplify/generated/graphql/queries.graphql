@@ -40,6 +40,8 @@ query GetTeam($id: ID!) {
         body
         state
         fileURL
+        longitude
+        latitude
         _version
         _deleted
         _lastChangedAt
@@ -98,6 +100,8 @@ query SyncTasks(
       body
       state
       fileURL
+      longitude
+      latitude
       _version
       _deleted
       _lastChangedAt
@@ -116,6 +120,8 @@ query GetTask($id: ID!) {
     body
     state
     fileURL
+    longitude
+    latitude
     _version
     _deleted
     _lastChangedAt
@@ -136,6 +142,8 @@ query ListTasks(
       body
       state
       fileURL
+      longitude
+      latitude
       _version
       _deleted
       _lastChangedAt

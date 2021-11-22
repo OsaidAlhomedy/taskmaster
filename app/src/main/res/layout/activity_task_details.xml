@@ -48,14 +48,28 @@
 
     <ImageView
         android:id="@+id/imageTaskDetails"
-        android:layout_width="330dp"
-        android:layout_height="257dp"
+        android:layout_width="312dp"
+        android:layout_height="130dp"
         android:layout_marginTop="28dp"
+        android:contentDescription="@string/this_image_is_attached_to_the_task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.407"
+        app:layout_constraintHorizontal_bias="0.363"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskBody"
-        app:layout_constraintVertical_bias="0.015" />
+        app:layout_constraintVertical_bias="0.838" />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="324dp"
+        android:layout_height="164dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageTaskDetails"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.402"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskBody"
+        app:layout_constraintVertical_bias="0.416"
+        tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
