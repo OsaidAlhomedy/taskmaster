@@ -51,6 +51,8 @@ to take the user to the taskOG details and render the title correctly.
 
 22/11/2021 : added the task location in the task details
 
+23/11/2021 : added the session analytics to the application
+
 ## Screenshots
 
 ### lab26
