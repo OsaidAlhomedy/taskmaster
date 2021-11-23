@@ -51,6 +51,8 @@ to take the user to the taskOG details and render the title correctly.
 
 22/11/2021 : added the task location in the task details
 
+23/11/2021 : added the session analytics to the application
+
 ## Screenshots
 
 ### lab26
@@ -106,21 +108,26 @@ Testing is so fast I can not take screenshots of the final result.
 ![24](screenshots/OLD/24.png)
 ![24](screenshots/OLD/25.png)
 
-### lab39
+### lab40
 
 ![26](screenshots/OLD/26.png)
 ![27](screenshots/OLD/27.png)
 ![28](screenshots/OLD/28.png)
 
-### lab40
+### lab41
 
 ![29](screenshots/OLD/29.png)
 ![30](screenshots/OLD/30.png)
-![31](screenshots/31.png)
+![31](screenshots/OLD/31.png)
 
-### lab41
+### lab42
 
-![31](screenshots/31.png)
+![31](screenshots/OLD/31.png)
+
+### lab43
+
+![32](screenshots/32.png)
+![33](screenshots/33.png)
 
 ## License
 
